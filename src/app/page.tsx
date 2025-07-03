@@ -95,7 +95,7 @@ export default function Home() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
             <Image
-              src="/image/logo-toko.jpg"
+              src="/image/logo.jpg"
               alt="Logo Yulizar ATK"
               width={60}
               height={60}
