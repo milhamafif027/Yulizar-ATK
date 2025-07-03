@@ -75,7 +75,7 @@ export default function Home() {
         <div className="absolute inset-y-0 right-0 w-full md:w-[60%] hidden md:block z-0">
           <div className="w-full h-full bg-pink-300 relative">
             <Image
-              src="/image/bg-alattulis.jpg"
+              src="/image/bg-utama.jpg"
               alt="Ilustrasi ATK"
               width={1000}
               height={1000}
@@ -95,7 +95,7 @@ export default function Home() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
             <Image
-              src="/image/logo.png"
+              src="/image/logo-toko.jpg"
               alt="Logo Yulizar ATK"
               width={60}
               height={60}
