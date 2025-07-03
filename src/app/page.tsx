@@ -45,6 +45,18 @@ const produkList = [
   },
 ];
 
+const generateWhatsAppMessage = (title: string, price: string) => {
+  const time = new Date().toLocaleString("id-ID", {
+    timeZone: "Asia/Jakarta",
+    hour: "2-digit",
+    minute: "2-digit",
+    weekday: "long",
+  });
+  return encodeURIComponent(
+    `Halo admin Yulizar ATK,\n\nSaya tertarik dengan produk:\n📦 ${title}\n💸 Harga: ${price}\n🕓 Waktu: ${time}\n\nApakah stok masih tersedia?`
+  );
+};
+
 export default function Home() {
   const { ref: produkRef, inView: inViewProduk } = useInView({
     triggerOnce: false,
@@ -141,6 +153,7 @@ export default function Home() {
         id="produk"
         className="relative py-20 px-6 min-h-screen overflow-hidden bg-white"
       >
+        {/* Background kiri */}
         <div className="absolute inset-y-0 left-0 w-full md:w-[40%] hidden md:block z-0">
           <div className="w-full h-full relative">
             <Image
@@ -154,6 +167,7 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Konten utama produk */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inViewProduk ? { opacity: 1, y: 0 } : {}}
@@ -163,13 +177,28 @@ export default function Home() {
           <h2 className="text-4xl font-bold text-center mb-10 text-pink-600">
             Produk Kami
           </h2>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {produkList.map((item, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-4"
+                className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-4 flex flex-col justify-between"
               >
+                {/* Kartu Produk */}
                 <ProductCard {...item} />
+
+                {/* Tombol Kirim WA */}
+                <a
+                  href={`https://wa.me/6281373855636?text=${generateWhatsAppMessage(
+                    item.title,
+                    item.price
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-block text-center bg-green-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-green-600 transition"
+                >
+                  💬 Pesan Sekarang via WhatsApp
+                </a>
               </div>
             ))}
           </div>

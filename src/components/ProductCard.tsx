@@ -19,9 +19,6 @@ export default function ProductCard({
         <p className="text-gray-600 text-sm mb-3">{description}</p>
         <div className="flex justify-between items-center">
           <span className="text-blue-600 font-bold">{price}</span>
-          <button className="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 text-sm rounded-full shadow transition">
-            Pesan
-          </button>
         </div>
       </div>
     </div>
