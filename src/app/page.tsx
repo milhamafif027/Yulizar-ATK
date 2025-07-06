@@ -1,45 +1,47 @@
 "use client";
 
+import { useState } from "react";
+import { useInView } from "react-intersection-observer";
+import { motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import ProductCard from "@/components/ProductCard";
-import { useInView } from "react-intersection-observer";
 
 const produkList = [
   {
     title: "Pulpen Snowman",
-    description: "Pulpen tinta gelus halus cocok untuk menulis harian.",
+    description: "Pulpen tinta gelus halus.",
     price: "Rp 3.500",
     image: "/image/pulpen.jpg",
   },
   {
     title: "Pensil 2B",
-    description: "Pensil 2B berkualitas, cocok untuk ujian.",
+    description: "Pensil 2B berkualitas.",
     price: "Rp 2.000",
     image: "/image/pensil.jpg",
   },
   {
     title: "Buku Tulis 38 Lbr",
-    description: "Buku tulis ekonomis untuk pelajar.",
+    description: "Buku tulis ekonomis.",
     price: "Rp 3.000",
     image: "/image/buku-tulis.jpg",
   },
   {
     title: "Penghapus Staedtler",
-    description: "Penghapus bersih dan tidak merusak kertas.",
+    description: "Penghapus bersih.",
     price: "Rp 4.000",
     image: "/image/penghapus.jpg",
   },
   {
     title: "Map Folder A4",
-    description: "Map plastik warna-warni untuk arsip dokumen.",
+    description: "Map plastik warna-warni.",
     price: "Rp 5.500",
     image: "/image/map.jpg",
   },
   {
     title: "Penggaris 30cm",
-    description: "Penggaris plastik bening ukuran 30 cm.",
+    description: "Penggaris plastik ukuran 30 cm.",
     price: "Rp 3.000",
     image: "/image/penggaris.jpg",
   },
@@ -58,6 +60,13 @@ const generateWhatsAppMessage = (title: string, price: string) => {
 };
 
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const { ref: heroRef, inView: inViewHero } = useInView({
+    triggerOnce: false,
+    threshold: 0.2,
+  });
+
   const { ref: produkRef, inView: inViewProduk } = useInView({
     triggerOnce: false,
     threshold: 0.2,
@@ -70,7 +79,10 @@ export default function Home() {
   return (
     <main>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-pink-200 via-white to-blue-100 overflow-hidden min-h-screen w-full">
+      <section
+        ref={heroRef}
+        className="relative bg-gradient-to-r from-pink-200 via-white to-blue-100 overflow-hidden min-h-screen w-full"
+      >
         {/* Background Image (kanan) */}
         <div className="absolute inset-y-0 right-0 w-full md:w-[60%] hidden md:block z-0">
           <div className="w-full h-full bg-pink-300 relative">
@@ -88,26 +100,28 @@ export default function Home() {
         {/* Header */}
         <motion.header
           initial={{ opacity: 0, y: -40 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={inViewHero ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="relative z-20 max-w-7xl mx-auto flex flex-col sm:flex-row sm:justify-between items-center px-6 pt-6"
+          className="relative z-20 w-full max-w-7xl mx-auto flex items-center justify-between px-6 pt-6"
         >
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
-            <Image
-              src="/image/logo.jpg"
-              alt="Logo Yulizar ATK"
-              width={60}
-              height={60}
-              priority
-            />
-            <span className="text-xl font-bold text-pink-700">
-              Yulizar <span className="text-gray-900">ATK</span>
-            </span>
-          </Link>
+          {/* Logo Centered on Mobile */}
+          <div className="flex-1 flex justify-center sm:justify-start">
+            <Link href="/" className="flex items-center gap-2">
+              <Image
+                src="/image/logo.jpg"
+                alt="Logo Yulizar ATK"
+                width={50}
+                height={50}
+                priority
+              />
+              <span className="text-lg sm:text-xl font-bold text-pink-700">
+                Yulizar <span className="text-gray-900">ATK</span>
+              </span>
+            </Link>
+          </div>
 
-          {/* Navigation */}
-          <nav className="flex gap-6 font-semibold text-gray-800">
+          {/* Desktop Navigation */}
+          <nav className="hidden sm:flex items-center gap-8 font-bold text-gray-800 text-sm">
             <a href="#produk" className="hover:text-pink-600">
               Produk
             </a>
@@ -115,21 +129,65 @@ export default function Home() {
               Tentang
             </a>
             <a href="#kontak" className="hover:text-pink-600">
-              Kontak & Lokasi
+              Kontak
             </a>
             <Link
-              href="/produk"
-              className="ml-4 px-4 py-2 bg-pink-600 text-white rounded-md hover:bg-pink-700"
+              href="/learnmore"
+              className="ml-2 px-3 py-1.5 bg-pink-600 text-white rounded-md hover:bg-pink-700 text-sm"
             >
               Learn More
             </Link>
           </nav>
+
+          {/* Mobile Menu Button */}
+          <div className="flex-1 flex justify-end sm:hidden">
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="text-pink-700 focus:outline-none"
+            >
+              {menuOpen ? <X size={26} /> : <Menu size={26} />}
+            </button>
+          </div>
+
+          {/* Mobile Menu Dropdown */}
+          {menuOpen && (
+            <div className="absolute top-full left-0 w-full bg-white shadow-md mt-2 flex flex-col items-start px-6 py-4 gap-3 sm:hidden font-medium text-gray-800 z-30 text-sm">
+              <a
+                href="#produk"
+                className="hover:text-pink-600"
+                onClick={() => setMenuOpen(false)}
+              >
+                Produk
+              </a>
+              <a
+                href="#about"
+                className="hover:text-pink-600"
+                onClick={() => setMenuOpen(false)}
+              >
+                Tentang
+              </a>
+              <a
+                href="#kontak"
+                className="hover:text-pink-600"
+                onClick={() => setMenuOpen(false)}
+              >
+                Kontak
+              </a>
+              <Link
+                href="/learnmore"
+                className="px-4 py-2 bg-pink-600 text-white rounded-md hover:bg-pink-700"
+                onClick={() => setMenuOpen(false)}
+              >
+                Learn More
+              </Link>
+            </div>
+          )}
         </motion.header>
 
         {/* Hero Content */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={inViewHero ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.2, duration: 0.7, ease: "easeOut" }}
           className="relative z-10 flex items-center justify-center md:justify-start min-h-[calc(100vh-100px)] px-6 max-w-7xl mx-auto"
         >
@@ -178,29 +236,29 @@ export default function Home() {
             Produk Kami
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            {produkList.map((item, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-4 flex flex-col justify-between"
-              >
-                {/* Kartu Produk */}
-                <ProductCard {...item} />
-
-                {/* Tombol Kirim WA */}
-                <a
-                  href={`https://wa.me/6281373855636?text=${generateWhatsAppMessage(
-                    item.title,
-                    item.price
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-4 inline-block text-center bg-green-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-green-600 transition"
+          {/* Wrapper scrollable */}
+          <div className="relative overflow-hidden">
+            <div className="flex gap-6 overflow-x-auto overflow-y-hidden scroll-smooth sm:grid sm:grid-cols-2 md:grid-cols-3 sm:gap-8 sm:overflow-visible px-4 py-4">
+              {produkList.map((item, index) => (
+                <div
+                  key={index}
+                  className="min-w-[360px] max-w-[360px] sm:min-w-0 bg-white rounded-3xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 p-5 flex flex-col flex-shrink-0"
                 >
-                  💬 Pesan Sekarang via WhatsApp
-                </a>
-              </div>
-            ))}
+                  <ProductCard {...item} />
+                  <a
+                    href={`https://wa.me/6281373855636?text=${generateWhatsAppMessage(
+                      item.title,
+                      item.price
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-block text-center bg-green-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-green-600 transition"
+                  >
+                    💬 Pesan Sekarang via WhatsApp
+                  </a>
+                </div>
+              ))}
+            </div>
           </div>
         </motion.div>
       </section>
