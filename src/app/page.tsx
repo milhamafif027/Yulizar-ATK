@@ -246,7 +246,7 @@ export default function Home() {
                 >
                   <ProductCard {...item} />
                   <a
-                    href={`https://wa.me/6281373855636?text=${generateWhatsAppMessage(
+                    href={`https://wa.me/6281369016761?text=${generateWhatsAppMessage(
                       item.title,
                       item.price
                     )}`}
@@ -359,10 +359,10 @@ export default function Home() {
             >
               <strong>📞 Telepon:</strong>{" "}
               <a
-                href="tel:+6281234567890"
+                href="tel:+62 813-6901-6761"
                 className="text-pink-600 hover:underline"
               >
-                +62 812 3456 7890
+                +62 813-6901-6761
               </a>
             </motion.li>
             <motion.li
