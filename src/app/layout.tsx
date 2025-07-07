@@ -23,7 +23,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html
+      lang="id"
+      className={`scroll-smooth ${geistSans.variable} ${geistMono.variable}`}
+    >
       <body className="antialiased bg-[var(--background)] text-[var(--foreground)] min-h-screen flex flex-col font-sans">
         <main className="flex-grow w-full">{children}</main>
         <Footer />
@@ -31,4 +34,5 @@ export default function RootLayout({
     </html>
   );
 }
+
 
