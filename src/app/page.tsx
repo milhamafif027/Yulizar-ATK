@@ -387,7 +387,7 @@ export default function Home() {
             >
               <strong>📍 Alamat:</strong>{" "}
               <span>
-                Suka Negeri, Kec. Semendawai Barat,
+                Kangkung Ilir, Kec. Semendawai Barat,
                 <br />
                 Kab. OKU Timur, Sumatera Selatan 32184
               </span>
